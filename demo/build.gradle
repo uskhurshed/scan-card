@@ -6,6 +6,8 @@ localProperties.load(new FileInputStream(localPropertiesFile))
 
 android {
     compileSdkVersion 34
+    ndkVersion "26.1.10909125"
+
     defaultConfig {
         applicationId "lens24.demo"
         minSdkVersion 21

@@ -4,6 +4,7 @@ android {
     compileSdkVersion 34
 
     testBuildType "profiling"
+    ndkVersion "26.1.10909125"
 
     defaultConfig {
         minSdkVersion 21
