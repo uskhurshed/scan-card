@@ -1,0 +1,75 @@
+apply plugin: 'com.android.library'
+
+ext {
+    PUBLISH_GROUP_ID = 'io.github.vlasentiy'
+    PUBLISH_VERSION = '1.1.5'
+    PUBLISH_ARTIFACT_ID = 'lens24'
+    PUBLISH_DESCRIPTION = 'Lens24 Android SDK'
+    PUBLISH_URL = 'https://github.com/vlasentiy/Lens24'
+    PUBLISH_LICENSE_NAME = 'MIT License'
+    PUBLISH_LICENSE_URL = 'https://github.com/vlasentiy/Lens24/blob/master/LICENSE.md'
+    PUBLISH_DEVELOPER_ID = 'vlas'
+    PUBLISH_DEVELOPER_NAME = 'Vlas Artanov'
+    PUBLISH_DEVELOPER_EMAIL = 'vlas.artanov@gmail.com'
+    PUBLISH_SCM_CONNECTION = 'scm:git:github.com/vlasentiy/Lens24.git'
+    PUBLISH_SCM_DEVELOPER_CONNECTION = 'scm:git:ssh://github.com/vlasentiy/Lens24.git'
+    PUBLISH_SCM_URL = 'https://github.com/vlasentiy/Lens24/tree/master'
+}
+
+apply from: "${rootProject.projectDir}/scripts/publish-module.gradle"
+
+android {
+    compileSdkVersion 34
+
+    testBuildType "profiling"
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 34
+
+        externalNativeBuild {
+            cmake {
+                abiFilters 'armeabi-v7a', "arm64-v8a", /*"x86",*/ "x86_64"
+                arguments '-DANDROID_STL=c++_shared'
+            }
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path "src/main/cpp/CMakeLists.txt"
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            jniDebuggable false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            consumerProguardFiles 'proguard-customer.pro'
+        }
+        debug {
+            jniDebuggable true
+        }
+        profiling {
+            initWith debug
+            externalNativeBuild {
+                cmake {
+                    arguments "-DCMAKE_BUILD_TYPE=Release"//, '-DCMAKE_VERBOSE_MAKEFILE=1'
+                }
+            }
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    resourcePrefix "lens24_"
+    namespace 'lens24.sdk'
+}
+
+dependencies {
+    implementation "androidx.constraintlayout:constraintlayout:2.1.4"
+    implementation "androidx.appcompat:appcompat:1.6.1"
+}
