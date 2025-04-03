@@ -5,13 +5,13 @@ def localProperties = new Properties()
 localProperties.load(new FileInputStream(localPropertiesFile))
 
 android {
-    compileSdkVersion 34
+    compileSdkVersion 35
     ndkVersion "26.1.10909125"
 
     defaultConfig {
         applicationId "lens24.demo"
         minSdkVersion 21
-        targetSdkVersion 34
+        targetSdkVersion 35
         versionCode 8
         versionName "1.1.5"
         resConfigs 'en'
@@ -38,6 +38,10 @@ android {
         resources {
             excludes += ['META-INF/LICENSE.txt', 'META-INF/NOTICE.txt']
         }
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
     namespace 'demo'
 }
