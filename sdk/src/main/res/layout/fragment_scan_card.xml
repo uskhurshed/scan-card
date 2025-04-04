@@ -29,7 +29,6 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/toolbar_gradient"
             app:contentInsetLeft="16dp"
             app:contentInsetStart="16dp"
             app:contentInsetStartWithNavigation="0dp"
@@ -52,39 +51,5 @@
         android:visibility="gone"
         tools:visibility="visible" />
 
-
-    <View
-        android:id="@+id/view"
-        android:layout_width="wrap_content"
-        android:layout_height="56dp"
-        android:layout_gravity="bottom|center"
-        android:background="@drawable/toolbar_gradient"
-        android:rotation="180"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/bManual"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_gravity="bottom|center"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/ripple_background"
-        android:enabled="false"
-        android:textAllCaps="false"
-        android:textColor="@color/accent_color"
-        android:textSize="16sp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/main_content"
-        app:layout_constraintStart_toEndOf="@+id/main_content"
-        tools:ignore="TouchTargetSizeCheck"
-        tools:text="@string/button_enter_card_number"
-        tools:visibility="visible" />
 
 </FrameLayout>

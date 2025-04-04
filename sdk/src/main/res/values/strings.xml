@@ -1,6 +1,5 @@
 <resources>
-    <string name="hint_position_card_in_frame">Position your card in this frame</string>
-    <string name="button_enter_card_number">Enter card details manually</string>
-    <string name="toggle_flash">Toggle flash</string>
-    <string name="title">Scan card</string>
+    <string name="hint_position_card_in_frame">Поместите карту в эту рамку</string>
+    <string name="toggle_flash">Переключить вспышку</string>
+    <string name="title">Сканирование карты</string>
 </resources>
