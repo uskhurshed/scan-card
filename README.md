@@ -1,57 +1,55 @@
-<p align="center" style="margin-bottom: 0px !important;">
-  <img width="200" src="https://github.com/vlasentiy/assets/blob/main/lens24_logo.svg" alt="Lens24 logo" align="center">
-</p>
-<h1 align="center" style="margin-top: 0px;">Lens24</h1>
+# 💳 Smart ScanCard
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.vlasentiy/lens24/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.vlasentiy/lens24)
-[![API](https://img.shields.io/badge/API-16%2B-blue.svg?style=flat)](https://android-arsenal.com/api?level=16)
-<a href="https://github.com/vlasentiy/Lens24/blob/master/LICENSE.md">
-    <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="Lens24 is released under the MIT license." />
-  </a>
+Библиотека для Android, которая позволяет быстро и удобно сканировать банковские карты с помощью камеры. Поддерживает автоматическое распознавание номера, имени владельца и даты истечения срока действия.
 
-Lens24 is SDK for Android that gives you ability to scan various of credit or payment cards in your app offline.
-You can easily integrate and customize the SDK into your app by following the instructions below.
-
+---
 <p align="center">
   <img src="https://github.com/vlasentiy/assets/blob/main/lens24_example_1.gif" width="360" />
     &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
   <img src="https://github.com/vlasentiy/assets/blob/main/lens24_example_4.gif" width="360" /> 
 </p>
 
-### Demo
+## 🚀 Подключение
 
-[<img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width="210"/>](https://play.google.com/store/apps/details?id=lens24.demo&hl=en&gl=US)
+Добавьте в `settings.gradle.kts`:
 
-
-### SDK integration
-
-In your `build.gradle`, add maven repository to repositories list
-
-```
+```kotlin
+dependencyResolutionManagement {
     repositories {
         mavenCentral()
+        maven { url = uri("https://jitpack.io") }
     }
-```
-
-<i>If you just want to recognize card number, use lightweight version '>=2.0.0' (reduce size up to 33%). There is also no lottie animation support.<br />
-For full recognition use version v1.\*.\* <br />
-</i>
-<br />
-Add _Lens24_ as a dependency
-```
-dependencies {
-    implementation 'io.github.vlasentiy:lens24:2.0.1'
 }
 ```
 
-### Usage
-
-Build an Intent using the `ScanCardIntent.Builder` and start a new activity to perform the scan:
-
-#### Kotlin
+Добавьте в `build.gradle.kts` модуля:
 
 ```kotlin
-class MyActivity : AppCompatActivity {
+dependencies {
+    implementation("com.github.uskhurshed:scan-card:{latest-version}")
+}
+```
+
+Замените `{latest-version}` на актуальную версию, например: `1.0.1`
+
+---
+
+## 📦 Возможности
+
+- Сканирование номера карты
+- Сканирование имени владельца (опционально)
+- Сканирование даты окончания (опционально)
+- Результат с изображением карты
+- Обработка ошибок, возврат вручную
+
+---
+
+## 🧩 Использование
+
+### Kotlin
+
+```kotlin
+class MyActivity : AppCompatActivity() {
 
     private var activityResultCallback = ScanCardCallback.Builder()
         .setOnSuccess { card: Card, bitmap: Bitmap? -> setCard(card, bitmap) }
@@ -60,20 +58,15 @@ class MyActivity : AppCompatActivity {
         .setOnError { /*Your code here*/ }
         .build()
 
-    private var startActivityIntent = registerForActivityResult<Intent, ActivityResult>(
+    private var startActivityIntent = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult(),
         activityResultCallback
     )
 
-    private fun setCard(card: Card, bitmap: Bitmap?) {
-        /*Your code here*/
-    }
-
     private fun scanCard() {
         val intent: Intent = ScanCardIntent.Builder(this)
-            // customize these values to suit your needs
-            .setScanCardHolder(true) // version [1.0.0..2.0.0)
-            .setScanExpirationDate(true) // version [1.0.0..2.0.0)
+            .setScanCardHolder(true)
+            .setScanExpirationDate(true)
             .setVibrationEnabled(false)
             .setHint(getString(R.string.hint))
             .setToolbarTitle("Scan card")
@@ -85,10 +78,16 @@ class MyActivity : AppCompatActivity {
 
         startActivityIntent.launch(intent)
     }
+
+    private fun setCard(card: Card, bitmap: Bitmap?) {
+        // Обработка результата
+    }
 }
 ```
 
-#### Java
+---
+
+### Java
 
 ```java
 class MyActivity extends AppCompatActivity {
@@ -105,15 +104,10 @@ class MyActivity extends AppCompatActivity {
                     new ActivityResultContracts.StartActivityForResult(),
                     activityResultCallback);
 
-    private void setCard(@NonNull Card card, @Nullable Bitmap bitmap) {
-        /*Your code here*/
-    }
-
     private void scanCard() {
         Intent intent = new ScanCardIntent.Builder(this)
-                // customize these values to suit your needs
-                .setScanCardHolder(true) // version [1.0.0..2.0.0)
-                .setScanExpirationDate(true) // version [1.0.0..2.0.0)
+                .setScanCardHolder(true)
+                .setScanExpirationDate(true)
                 .setVibrationEnabled(false)
                 .setHint(getString(R.string.hint))
                 .setToolbarTitle("Scan card")
@@ -125,29 +119,16 @@ class MyActivity extends AppCompatActivity {
 
         startActivityIntent.launch(intent);
     }
+
+    private void setCard(@NonNull Card card, @Nullable Bitmap bitmap) {
+        // Обработка результата
+    }
 }
 ```
 
-### License
+---
 
-```
-MIT License
+## 📜 License
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
- 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
- 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
+MIT License — свободно для использования в любых проектах.
+
