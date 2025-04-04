@@ -32,6 +32,9 @@ import androidx.annotation.RestrictTo;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import scan.camera.ScanManager;
 import scan.camera.widget.CameraPreviewLayout;
@@ -110,6 +113,9 @@ public class ScanCardFragment extends Fragment {
 
         initView(root);
         showMainContent();
+
+
+
 
         return root;
     }
@@ -267,6 +273,7 @@ public class ScanCardFragment extends Fragment {
         appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         appCompatActivity.getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+
         mToolbar.setNavigationIcon(R.drawable.ic_close);
         mToolbar.setNavigationOnClickListener(v -> {
             if (mListener != null)
@@ -280,6 +287,15 @@ public class ScanCardFragment extends Fragment {
             }
 
             return false;
+        });
+
+        ViewCompat.setOnApplyWindowInsetsListener(mToolbar, (v, insets) -> {
+            Insets ins = insets.getInsets(WindowInsetsCompat.Type.statusBars());
+            mToolbar.setPadding(0, ins.top, 0, 0);
+            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) bManual.getLayoutParams();
+            params.setMargins(params.leftMargin, params.topMargin, params.rightMargin, params.bottomMargin  + ins.top);
+            bManual.setLayoutParams(params);
+            return insets;
         });
     }
 
@@ -320,20 +336,11 @@ public class ScanCardFragment extends Fragment {
     }
 
     private void hide(View view) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            Transition transition = new Fade();
-            transition.setDuration(900);
-            transition.addTarget(view);
-            TransitionManager.beginDelayedTransition((ViewGroup) view.getParent(), transition);
-            view.setVisibility(View.GONE);
-        } else {
-            view
-                    .animate()
-                    .alpha(0f)
-                    .withEndAction(() -> view.setVisibility(View.GONE))
-                    .setDuration(900)
-                    .start();
-        }
+        Transition transition = new Fade();
+        transition.setDuration(900);
+        transition.addTarget(view);
+        TransitionManager.beginDelayedTransition((ViewGroup) view.getParent(), transition);
+        view.setVisibility(View.GONE);
     }
 
     public interface InteractionListener {
