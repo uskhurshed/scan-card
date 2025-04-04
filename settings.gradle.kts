@@ -20,4 +20,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "scan-card"
+include(":demo")
 include(":sdk")
