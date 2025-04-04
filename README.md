@@ -1,4 +1,4 @@
-# 💳 Smart ScanCard
+# 💳 ScanCard
 
 Библиотека для Android, которая позволяет быстро и удобно сканировать банковские карты с помощью камеры. Поддерживает автоматическое распознавание номера, имени владельца и даты истечения срока действия.
 
@@ -30,7 +30,7 @@ dependencies {
 }
 ```
 
-Замените `{latest-version}` на актуальную версию, например: `1.0.1`
+Замените `{latest-version}` на актуальную версию, например: `1.0.7`
 
 ---
 
@@ -41,6 +41,18 @@ dependencies {
 - Сканирование даты окончания (опционально)
 - Результат с изображением карты
 - Обработка ошибок, возврат вручную
+
+---
+
+
+⏹️ Размеры сборок
+
+Вариант                  | Размер APK  | Разница
+-------------------------|-------------|---------
+Без библиотек            | 13,35 MB    | —
+ScanCard                 | 21,81 MB    | +8,48 MB
+Card.io                  | 17,87 MB    | +4,52 MB
+Разница ScanCard и Card.io | —       | +3,96 MB
 
 ---
 
@@ -71,7 +83,6 @@ class MyActivity : AppCompatActivity() {
             .setHint(getString(R.string.hint))
             .setToolbarTitle("Scan card")
             .setSaveCard(true)
-            .setManualInputButtonText("Manual input")
             .setBottomHint("bottom hint")
             .setMainColor(R.color.primary_color_dark)
             .build()
@@ -112,7 +123,6 @@ class MyActivity extends AppCompatActivity {
                 .setHint(getString(R.string.hint))
                 .setToolbarTitle("Scan card")
                 .setSaveCard(true)
-                .setManualInputButtonText("Manual input")
                 .setBottomHint("bottom hint")
                 .setMainColor(R.color.primary_color_dark)
                 .build();
