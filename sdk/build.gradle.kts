@@ -48,8 +48,7 @@ android {
         buildConfig = true
     }
 
-    resourcePrefix = "lens24_"
-    namespace = "lens24.sdk"
+    namespace = "scan.sdk"
 }
 
 dependencies {

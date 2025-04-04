@@ -34,7 +34,7 @@ bool IRecognitionCore::GetInstance(shared_ptr<IRecognitionCore> &recognitionCore
     return recognitionCore != 0;
 }
 
-CRecognitionCore::CRecognitionCore(const shared_ptr<IRecognitionCoreDelegate>& delegate, const shared_ptr<ITorchDelegate>& torchDelegate) : _delegate(delegate), _orientation(Lens24RecognizerOrientationPortrait), _mode(Lens24RecognizerModeNone), _deployed(false)
+CRecognitionCore::CRecognitionCore(const shared_ptr<IRecognitionCoreDelegate>& delegate, const shared_ptr<ITorchDelegate>& torchDelegate) : _delegate(delegate), _orientation(RecognizerOrientationPortrait), _mode(RecognizerModeNone), _deployed(false)
 {
     _isIdle.store(false);
     _isBusy = false;
@@ -59,25 +59,25 @@ CRecognitionCore::~CRecognitionCore()
     _currentFrame.release();
 }
 
-void CRecognitionCore::SetRecognitionMode(Lens24RecognizerMode flag)
+void CRecognitionCore::SetRecognitionMode(RecognizerMode flag)
 {
     _mode = flag;
 
-    if (_mode & Lens24RecognizerModeNumber) {
+    if (_mode & RecognizerModeNumber) {
         _numberRecognizer = _serviceContainerPtr->resolve<INumberRecognizer>();
         if(auto numberRecognizer = _numberRecognizer.lock()) {
             numberRecognizer->SetRecognitionMode(flag);
         }
     }
 //// disable date recognition
-    if (_mode & Lens24RecognizerModeDate) {
+    if (_mode & RecognizerModeDate) {
         _dateRecognizer = _serviceContainerPtr->resolve<IDateRecognizer>();
         if(auto dateRecognizer = _dateRecognizer.lock()) {
             dateRecognizer->SetRecognitionMode(flag);
         }
     }
 //// disable name recognition
-    if (_mode & Lens24RecognizerModeName) {
+    if (_mode & RecognizerModeName) {
         _nameRecognizer = _serviceContainerPtr->resolve<INameRecognizer>();
         if(auto nameRecognizer = _nameRecognizer.lock()) {
             nameRecognizer->SetRecognitionMode(flag);
@@ -87,7 +87,7 @@ void CRecognitionCore::SetRecognitionMode(Lens24RecognizerMode flag)
 
 void CRecognitionCore::Deploy()
 {
-    if (_mode == Lens24RecognizerModeNone) return;
+    if (_mode == RecognizerModeNone) return;
     
     if (auto numberRecognizer = _numberRecognizer.lock()) {
         numberRecognizer->SetDelegate(_delegate);
@@ -107,7 +107,7 @@ void CRecognitionCore::Deploy()
     _deployed = true;
 }
 
-void CRecognitionCore::SetOrientation(Lens24RecognizerOrientation orientation)
+void CRecognitionCore::SetOrientation(RecognizerOrientation orientation)
 {
     _orientation = orientation;
 }
@@ -353,7 +353,7 @@ void CRecognitionCore::Recognize()
     if (auto recognitionResult = _recognitionResult.lock()) {
         
         // number
-        if (_mode & Lens24RecognizerModeNumber &&
+        if (_mode & RecognizerModeNumber &&
             !(recognitionResult->GetRecognitionStatus()&RecognitionStatusNumber)) {
             if (!RecognizeNumber()) {
                 FinishRecognition();
@@ -362,7 +362,7 @@ void CRecognitionCore::Recognize()
         }
         
         // date
-        if (_mode & Lens24RecognizerModeDate &&
+        if (_mode & RecognizerModeDate &&
             !(recognitionResult->GetRecognitionStatus() & RecognitionStatusDate) &&
             dateRecognitionAttemptsCount < kDateRecognitionAttempts) {
             if (!RecognizeDate()) {
@@ -371,10 +371,10 @@ void CRecognitionCore::Recognize()
             }
         }
         
-        if (_mode & Lens24RecognizerModeDate || _mode & Lens24RecognizerModeNumber) {
-            _delegate->RecognitionDidFinish(recognitionResult, (Lens24RecognizerMode)(Lens24RecognizerModeNumber | Lens24RecognizerModeDate));
+        if (_mode & RecognizerModeDate || _mode & RecognizerModeNumber) {
+            _delegate->RecognitionDidFinish(recognitionResult, (RecognizerMode)(RecognizerModeNumber | RecognizerModeDate));
             
-            if(_mode & Lens24RecognizerModeGrabCardImage) {
+            if(_mode & RecognizerModeGrabCardImage) {
                 auto cardMat = CaptureView();
                 if(!cardMat.empty()) {
                     _delegate->CardImageDidExtract(cardMat);
@@ -383,12 +383,12 @@ void CRecognitionCore::Recognize()
         }
         
         // name
-        if (_mode & Lens24RecognizerModeName &&
+        if (_mode & RecognizerModeName &&
             !(recognitionResult->GetRecognitionStatus() & RecognitionStatusName)) {
             RecognizeName();
         }
         
-        _delegate->RecognitionDidFinish(recognitionResult, Lens24RecognizerModeName);
+        _delegate->RecognitionDidFinish(recognitionResult, RecognizerModeName);
         
         _isIdle.store(true);
         FinishRecognition();
@@ -537,10 +537,10 @@ cv::Mat CRecognitionCore::CaptureView()
 #endif
             free(imgBuffer);
             
-            Lens24RecognizerOrientation orientation = frameStorage->GetYUVOrientation();
+            RecognizerOrientation orientation = frameStorage->GetYUVOrientation();
             
-            if (orientation != Lens24RecognizerOrientationPortraitUpsideDown &&
-                orientation != Lens24RecognizerOrientationPortrait) {
+            if (orientation != RecognizerOrientationPortraitUpsideDown &&
+                orientation != RecognizerOrientationPortrait) {
                 
                 CUtils::RotateMatrix90n(normalizedMat, normalizedMat, 90);
             }

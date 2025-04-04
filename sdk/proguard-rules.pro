@@ -27,16 +27,16 @@
 -dontoptimize
 -dontobfuscate
 
--keep class lens24.ndk.RecognitionCore { *; }
--dontnote lens24.ndk.RecognitionCore
+-keep class scan.ndk.RecognitionCore { *; }
+-dontnote scan.ndk.RecognitionCore
 
--keep class lens24.sdk.* {
+-keep class scan.sdk.* {
     public protected *;
 }
 
 -keepattributes Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,*Annotation*,EnclosingMethod
 
--keep class lens24.ndk.* {
+-keep class scan.ndk.* {
     public protected *;
 }
 
@@ -65,4 +65,4 @@
 -keep public class **.R$* {
   public *;
 }
--keep class lens24.intent.** { *; }
+-keep class scan.intent.** { *; }

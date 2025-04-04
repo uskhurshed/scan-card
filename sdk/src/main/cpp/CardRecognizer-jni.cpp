@@ -54,39 +54,39 @@ extern "C" {
         env->SetIntField(jRectDst, bottomFieldID, cvRect.y + cvRect.width);
     }
 
-    static inline Lens24RecognizerOrientation getFromJOrientation(int jWorkAreaOrientation) {
+    static inline RecognizerOrientation getFromJOrientation(int jWorkAreaOrientation) {
         switch (jWorkAreaOrientation) {
             case 1 :
-                return Lens24RecognizerOrientationPortrait; // WORK_AREA_ORIENTATION_PORTRAIT
+                return RecognizerOrientationPortrait; // WORK_AREA_ORIENTATION_PORTRAIT
             case 2 :
-                return Lens24RecognizerOrientationPortraitUpsideDown; // WORK_AREA_ORIENTATION_PORTRAIT_UPSIDE_DOWN
+                return RecognizerOrientationPortraitUpsideDown; // WORK_AREA_ORIENTATION_PORTRAIT_UPSIDE_DOWN
             case 3 :
-                return Lens24RecognizerOrientationLandscapeRight; // WORK_AREA_ORIENTATION_LANDSCAPE_RIGHT
+                return RecognizerOrientationLandscapeRight; // WORK_AREA_ORIENTATION_LANDSCAPE_RIGHT
             case 4 :
-                return Lens24RecognizerOrientationLandscapeLeft; // WORK_AREA_ORIENTATION_LANDSCAPE_LEFT
+                return RecognizerOrientationLandscapeLeft; // WORK_AREA_ORIENTATION_LANDSCAPE_LEFT
             default:
-                return Lens24RecognizerOrientationUnknown;
+                return RecognizerOrientationUnknown;
         }
     }
 
-    static inline const char *woOrientationName(Lens24RecognizerOrientation v) {
+    static inline const char *woOrientationName(RecognizerOrientation v) {
         switch (v) {
-            case Lens24RecognizerOrientationPortrait:
+            case RecognizerOrientationPortrait:
                 return "Portrait";
-            case Lens24RecognizerOrientationPortraitUpsideDown:
+            case RecognizerOrientationPortraitUpsideDown:
                 return "Portrait Upside-down";
-            case Lens24RecognizerOrientationLandscapeRight:
+            case RecognizerOrientationLandscapeRight:
                 return "Landscape right";
-            case Lens24RecognizerOrientationLandscapeLeft:
+            case RecognizerOrientationLandscapeLeft:
                 return "Landscape left";
-            case Lens24RecognizerOrientationUnknown:
+            case RecognizerOrientationUnknown:
             default:
                 return "Unknown";
         }
     }
 
     JNIEXPORT void JNICALL
-    Java_lens24_ndk_RecognitionCoreNdk_nativeSetDataPath(JNIEnv *env, jobject instance,
+    Java_scan_ndk_RecognitionCoreNdk_nativeSetDataPath(JNIEnv *env, jobject instance,
                                                                    jstring path_) {
         std::string stdPath;
 
@@ -119,7 +119,7 @@ extern "C" {
     }
 
     JNIEXPORT void JNICALL
-    Java_lens24_ndk_RecognitionCoreNdk_nativeInit(JNIEnv *env, jclass type) {
+    Java_scan_ndk_RecognitionCoreNdk_nativeInit(JNIEnv *env, jclass type) {
 
         shared_ptr<IRecognitionCoreDelegate> coreDelegate;
         IRecognitionCoreDelegate::GetInstance(coreDelegate, env);
@@ -129,26 +129,26 @@ extern "C" {
 
         IRecognitionCore::GetInstance(g_core, coreDelegate, torchDelegate);
 
-        g_core->SetRecognitionMode((Lens24RecognizerMode) (Lens24RecognizerModeNumber
-                                                           | Lens24RecognizerModeName
-                                                           | Lens24RecognizerModeDate));
+        g_core->SetRecognitionMode((RecognizerMode) (RecognizerModeNumber
+                                                           | RecognizerModeName
+                                                           | RecognizerModeDate));
     }
 
     JNIEXPORT void JNICALL
-    Java_lens24_ndk_RecognitionCoreNdk_nativeSetRecognitionMode(JNIEnv *env,
+    Java_scan_ndk_RecognitionCoreNdk_nativeSetRecognitionMode(JNIEnv *env,
                                                                                       jobject instance,
                                                                                       jint recognitionMode) {
-        g_core->SetRecognitionMode((Lens24RecognizerMode)recognitionMode);
+        g_core->SetRecognitionMode((RecognizerMode)recognitionMode);
     }
 
     JNIEXPORT void JNICALL
-    Java_lens24_ndk_RecognitionCoreNdk_nativeDeploy(JNIEnv *env,
+    Java_scan_ndk_RecognitionCoreNdk_nativeDeploy(JNIEnv *env,
                                                                        jobject instance) {
         g_core->Deploy();
     }
 
     JNIEXPORT void JNICALL
-    Java_lens24_ndk_RecognitionCoreNdk_nativeSetOrientation(JNIEnv *env,
+    Java_scan_ndk_RecognitionCoreNdk_nativeSetOrientation(JNIEnv *env,
                                                                             jobject instance,
                                                                             jint cardRectOrientation) {
         LOGI("nativeSetOrientation() orientation: %s", woOrientationName(getFromJOrientation(cardRectOrientation)));
@@ -156,7 +156,7 @@ extern "C" {
     }
 
     JNIEXPORT void JNICALL
-    Java_lens24_ndk_RecognitionCoreNdk_nativeCalcWorkingArea(JNIEnv *env,
+    Java_scan_ndk_RecognitionCoreNdk_nativeCalcWorkingArea(JNIEnv *env,
                                                                          jobject instance,
                                                                          jint frameWidth,
                                                                          jint frameHeight,
@@ -168,38 +168,38 @@ extern "C" {
     }
 
     JNIEXPORT void JNICALL
-    Java_lens24_ndk_RecognitionCoreNdk_nativeDestroy(JNIEnv *env, jclass type) {
+    Java_scan_ndk_RecognitionCoreNdk_nativeDestroy(JNIEnv *env, jclass type) {
         g_core = nullptr;
     }
 
     JNIEXPORT void JNICALL
-    Java_lens24_ndk_RecognitionCoreNdk_nativeResetResult(JNIEnv *env,
+    Java_scan_ndk_RecognitionCoreNdk_nativeResetResult(JNIEnv *env,
                                                                          jobject instance) {
         g_core->ResetResult();
     }
 
     JNIEXPORT void JNICALL
-    Java_lens24_ndk_RecognitionCoreNdk_nativeSetIdle(JNIEnv *env, jobject instance,
+    Java_scan_ndk_RecognitionCoreNdk_nativeSetIdle(JNIEnv *env, jobject instance,
                                                                      jboolean idle) {
         g_core->SetIdle(idle);
 
     }
 
     JNIEXPORT jboolean JNICALL
-    Java_lens24_ndk_RecognitionCoreNdk_nativeIsIdle(JNIEnv *env,
+    Java_scan_ndk_RecognitionCoreNdk_nativeIsIdle(JNIEnv *env,
                                                                     jobject instance) {
         return (jboolean) g_core->IsIdle();
     }
 
     JNIEXPORT void JNICALL
-    Java_lens24_ndk_RecognitionCoreNdk_nativeSetTorchStatus(JNIEnv *env,
+    Java_scan_ndk_RecognitionCoreNdk_nativeSetTorchStatus(JNIEnv *env,
                                                                             jobject instance,
                                                                             jboolean isTurnedOn) {
         g_core->SetTorchStatus(isTurnedOn);
     }
 
     JNIEXPORT jint JNICALL
-    Java_lens24_ndk_RecognitionCoreNdk_nativeProcessFrameYV12(JNIEnv *env,
+    Java_scan_ndk_RecognitionCoreNdk_nativeProcessFrameYV12(JNIEnv *env,
                                                                               jobject instance,
                                                                               jint src_width,
                                                                               jint src_height,

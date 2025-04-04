@@ -24,7 +24,7 @@ public:
     
     CRecognitionCoreDelegate( void* platformDelegate );
 
-    void RecognitionDidFinish(const shared_ptr<IRecognitionResult>& result, Lens24RecognizerMode resultFlags);
+    void RecognitionDidFinish(const shared_ptr<IRecognitionResult>& result, RecognizerMode resultFlags);
     void CardImageDidExtract(cv::Mat cardImage);
 
 private:

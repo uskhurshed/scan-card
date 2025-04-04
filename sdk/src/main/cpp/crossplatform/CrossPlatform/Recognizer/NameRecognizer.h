@@ -33,7 +33,7 @@ public:
     
     virtual bool Deploy();
     
-    virtual void SetRecognitionMode(Lens24RecognizerMode flag);
+    virtual void SetRecognitionMode(RecognizerMode flag);
     
     virtual void SetDelegate(const shared_ptr<IRecognitionCoreDelegate>& delegate);
     
@@ -73,7 +73,7 @@ private:
     string _pathNameDictPath;
     std::istringstream _namesDict;
     
-    Lens24RecognizerMode _mode;
+    RecognizerMode _mode;
 };
 
 

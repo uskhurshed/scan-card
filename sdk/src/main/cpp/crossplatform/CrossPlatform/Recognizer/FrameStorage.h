@@ -21,18 +21,18 @@ public:
     
 public:
     
-    virtual bool SetRawFrame(const Mat& rawFrame, const vector<ParametricLine>& edges, Lens24RecognizerOrientation orientation);
+    virtual bool SetRawFrame(const Mat& rawFrame, const vector<ParametricLine>& edges, RecognizerOrientation orientation);
     
     virtual bool NormalizeMatrix(const Mat& matrix, const vector<ParametricLine>& edges, Mat& resultMatrix);
     
-    virtual void SetRawY(const void* rawY, const void* rawUV, const vector<ParametricLine>& edges, Lens24RecognizerOrientation orientation);
+    virtual void SetRawY(const void* rawY, const void* rawUV, const vector<ParametricLine>& edges, RecognizerOrientation orientation);
     
     virtual bool GetCurrentFrame(Mat& mat);
     virtual void PopFrame();
     virtual const void* GetUVMat();
     virtual const void* GetYMat();
     virtual const vector<ParametricLine> GetEdges();
-    virtual const Lens24RecognizerOrientation GetYUVOrientation();
+    virtual const RecognizerOrientation GetYUVOrientation();
 
 private:
     
@@ -52,8 +52,8 @@ private:
     void *_bufferUV;
     size_t _bufferSizeUV;
     
-    Lens24RecognizerOrientation _grayOrientation;
-    Lens24RecognizerOrientation _yuvOrientation;
+    RecognizerOrientation _grayOrientation;
+    RecognizerOrientation _yuvOrientation;
 };
 
 #endif /* FrameStorage_hpp */

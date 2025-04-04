@@ -36,7 +36,7 @@ CNameRecognizer::~CNameRecognizer()
 {
 }
 
-void CNameRecognizer::SetRecognitionMode(Lens24RecognizerMode flag)
+void CNameRecognizer::SetRecognitionMode(RecognizerMode flag)
 {
     _mode = flag;
 }

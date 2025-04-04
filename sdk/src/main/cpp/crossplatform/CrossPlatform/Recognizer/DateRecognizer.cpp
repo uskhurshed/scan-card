@@ -25,7 +25,7 @@ CDateRecognizer::~CDateRecognizer()
 {
 }
 
-void CDateRecognizer::SetRecognitionMode(Lens24RecognizerMode flag)
+void CDateRecognizer::SetRecognitionMode(RecognizerMode flag)
 {
     _mode = flag;
 }

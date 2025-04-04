@@ -20,7 +20,7 @@ CTorchDelegate::CTorchDelegate(void *env)
     JNIEnv *jenv = (JNIEnv*)env;
     jenv->GetJavaVM(&_jvm);
 
-    jclass tmp = jenv->FindClass("lens24/ndk/RecognitionCoreNdk");
+    jclass tmp = jenv->FindClass("scan/ndk/RecognitionCoreNdk");
     _clazz = (jclass)jenv->NewGlobalRef(tmp);
 
     _method = jenv->GetStaticMethodID(_clazz, "onTorchStatusChanged", "(Z)V");
