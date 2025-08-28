@@ -5,19 +5,27 @@ plugins {
 
 android {
     compileSdk = 35
-    ndkVersion = "28.2.13676358"
+    ndkVersion = "26.1.10909125"
 
     defaultConfig {
         minSdk = 21
+
         externalNativeBuild {
             cmake {
-                abiFilters("armeabi-v7a", "arm64-v8a", "x86_64")
-                arguments("-DANDROID_STL=c++_shared")
+                abiFilters("armeabi-v7a","arm64-v8a","x86_64")
+                arguments(
+                    "-DANDROID_STL=c++_shared",
+                    "-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON"
+                )
             }
         }
     }
 
-    externalNativeBuild { cmake { path("src/main/cpp/CMakeLists.txt") } }
+    externalNativeBuild {
+        cmake {
+            path ("src/main/cpp/CMakeLists.txt")
+        }
+    }
 
     buildTypes {
        release {
