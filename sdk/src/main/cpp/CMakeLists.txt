@@ -1,17 +1,22 @@
-cmake_minimum_required(VERSION 3.13)  # target/add_link_options доступны с 3.13
-project(lib_native)
+cmake_minimum_required(VERSION 3.13)
 
-# Глобально для всех подпроектов/таргетов под Android:
+project(lib_native LANGUAGES C CXX)
+
+set(OpenCV_DIR "${CMAKE_CURRENT_SOURCE_DIR}/opencv2/sdk/native/jni")
+
 if(CMAKE_SYSTEM_NAME STREQUAL "Android")
-    # 16 KB page size
     add_link_options(LINKER:-z,max-page-size=16384)
-
-    # (опционально для очень старых линкеров)
-    # add_link_options(LINKER:-z,common-page-size=16384)
 endif()
 
-# ДАЛЕЕ — твои существующие настройки
-set(OpenCV_DIR "${CMAKE_CURRENT_SOURCE_DIR}/opencv2/sdk/native/jni")
+if(CMAKE_SYSTEM_NAME STREQUAL "Android")
+    if(ANDROID_ABI STREQUAL "arm64-v8a" OR ANDROID_ABI STREQUAL "x86_64")
+        foreach(var CMAKE_C_FLAGS CMAKE_CXX_FLAGS)
+            string(REPLACE "-marm" "" ${var} "${${var}}")
+            string(REPLACE "-mno-thumb" "" ${var} "${${var}}")
+            set(${var} "${${var}}" CACHE STRING "" FORCE)
+        endforeach()
+    endif()
+endif()
 
 add_subdirectory(armneon2x86sse)
 add_subdirectory(eigen)
@@ -23,6 +28,7 @@ add_subdirectory(crossplatform)
 add_library(data SHARED CardRecognizer-jni.cpp)
 
 target_link_libraries(data
+        PRIVATE
         crossplatform
         libyuv
         log
