@@ -5,36 +5,35 @@ plugins {
 
 android {
     compileSdk = 35
-    ndkVersion = "26.1.10909125"
+    ndkVersion = "28.2.13676358"
 
     defaultConfig {
         minSdk = 21
 
-        externalNativeBuild {
-            cmake {
-                abiFilters("armeabi-v7a","arm64-v8a","x86_64")
-                arguments(
-                    "-DANDROID_STL=c++_shared",
-                    "-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON"
-                )
-            }
+        externalNativeBuild.cmake {
+            abiFilters("armeabi-v7a", "arm64-v8a", "x86_64")
+            arguments("-DANDROID_STL=c++_shared")
         }
+
     }
 
     externalNativeBuild {
         cmake {
-            path ("src/main/cpp/CMakeLists.txt")
+            path("src/main/cpp/CMakeLists.txt")
         }
     }
 
     buildTypes {
-       release {
+        release {
             isMinifyEnabled = true
             isJniDebuggable = false
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), file("proguard-rules.pro"))
+            proguardFiles(
+                getDefaultProguardFile("proguard-android.txt"),
+                file("proguard-rules.pro")
+            )
             consumerProguardFiles(file("proguard-customer.pro"))
         }
-       debug {
+        debug {
             isJniDebuggable = true
         }
     }
@@ -47,6 +46,7 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+
     buildFeatures {
         buildConfig = true
     }

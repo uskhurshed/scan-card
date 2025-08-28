@@ -10,7 +10,7 @@ target_include_directories(${PROJECT_NAME}
   INTERFACE
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}>"
   )
-target_link_options(${PROJECT_NAME} INTERFACE LINKER:-z,max-page-size=16384)
+
 ### Install ###
 set(generated_dir "${CMAKE_CURRENT_BINARY_DIR}/generated")
 

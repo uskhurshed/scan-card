@@ -36,6 +36,7 @@ target_compile_options(crossplatform PRIVATE
         -marm -Wno-unused-command-line-argument
         -frtti -fexceptions
         -O3)
+
 target_include_directories(crossplatform
         PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}
@@ -50,7 +51,7 @@ target_include_directories(crossplatform
         CrossPlatform/Recognizer
         CrossPlatform/Torch
         jniImpl)
-target_link_options(crossplatform PRIVATE "-Wl,-z,max-page-size=16384")
+
 if (ANDROID_ABI STREQUAL "armeabi-v7a")
     set_property(TARGET crossplatform APPEND_STRING PROPERTY COMPILE_FLAGS " -mfpu=neon")
 elseif(ANDROID_ABI MATCHES "x86(_64)?")
