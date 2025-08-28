@@ -49,7 +49,6 @@ target_compile_options(libyuv PRIVATE -fno-exceptions -fno-rtti -Wall -O3)
 set_target_properties(libyuv PROPERTIES
     CXX_VISIBILITY_PRESET hidden
     VISIBILITY_INLINES_HIDDEN 1)
-target_link_options(libyuv PRIVATE "-Wl,-z,max-page-size=16384")
 
 if (ANDROID_ABI STREQUAL "armeabi-v7a")
     set_property(SOURCE ${neon_SRCS} APPEND_STRING PROPERTY COMPILE_FLAGS " -mfpu=neon")

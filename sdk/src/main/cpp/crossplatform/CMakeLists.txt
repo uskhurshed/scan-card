@@ -36,7 +36,6 @@ target_compile_options(crossplatform PRIVATE
         -marm -Wno-unused-command-line-argument
         -frtti -fexceptions
         -O3)
-target_link_options(crossplatform PRIVATE "-Wl,-z,max-page-size=16384")
 
 target_include_directories(crossplatform
         PUBLIC
