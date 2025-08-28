@@ -47,3 +47,5 @@ target_compile_options(protobuf PRIVATE
         -Wno-tautological-undefined-compare
         -Wno-unused-parameter)
 target_include_directories(protobuf PUBLIC GoogleProtobuf)
+target_link_options(protobuf PRIVATE "-Wl,-z,max-page-size=16384")
+
