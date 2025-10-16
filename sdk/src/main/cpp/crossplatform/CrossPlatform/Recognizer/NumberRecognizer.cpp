@@ -283,8 +283,8 @@ shared_ptr<INeuralNetworkResultList> CNumberRecognizer::ProcessMatrixFinal(Mat& 
 bool CNumberRecognizer::ValidateNumber(const shared_ptr<INeuralNetworkResultList>& result)
 {
     /// check probabilities
-    const float threshold = 0.75;  // 75% probability threshold
-    const int maxDoubtfulCount = 1;  // Allow only 1 doubtful digit
+    const float threshold = 0.70;  // 70% probability threshold
+    const int maxDoubtfulCount = 3;  // Allow up to 3 doubtful digits
     
     int non = 0;
     
@@ -314,9 +314,23 @@ bool CNumberRecognizer::CheckSum(const shared_ptr<INeuralNetworkResultList>& res
         number.push_back(result->GetMaxIndex());
     }
     
-    // Accept any card type - no Luhn algorithm validation
+    // Accept any card type - validate using Luhn algorithm
     // No restrictions on card type or BIN codes
-    // Only probability-based validation is used
+    
+    int k = 0;
+    if (number.size()%2 == 0) k = 1;
+        
+    int sum = 0;
+    int tmp;
+    
+    for(int i = 0; i < number.size(); i++)
+    {
+        tmp = number[i] * ((i+k)%2 + 1);
+        if(tmp > 9) tmp -= 9;
+            sum += tmp;
+            }
+    
+    if(sum%10 != 0 ) return false;
     
     return true;
 }

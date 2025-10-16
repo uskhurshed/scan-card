@@ -44,9 +44,10 @@ void CTorchManager::IncrementCounter()
 {
     _counter++;
     
-    if (_counter > kNonTorchTries) {
-        SetStatus(true);
-    }
+    // Disabled automatic torch activation after failed attempts
+    // if (_counter > kNonTorchTries) {
+    //     SetStatus(true);
+    // }
 }
 
 void CTorchManager::ResetCounter()
