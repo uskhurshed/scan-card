@@ -32,6 +32,7 @@
             android:layout_height="wrap_content"
             app:contentInsetLeft="16dp"
             app:contentInsetStart="16dp"
+            app:navigationIcon="@drawable/ic_close"
             app:contentInsetStartWithNavigation="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

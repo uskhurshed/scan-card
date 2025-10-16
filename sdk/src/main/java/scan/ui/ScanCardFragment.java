@@ -272,9 +272,6 @@ public class ScanCardFragment extends Fragment {
         appCompatActivity.setSupportActionBar(mToolbar);
         appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         appCompatActivity.getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-
-        mToolbar.setNavigationIcon(R.drawable.ic_close);
         mToolbar.setNavigationOnClickListener(v -> {
             if (mListener != null)
                 mListener.onScanCardCanceled(ScanCardIntent.BACK_PRESSED);
