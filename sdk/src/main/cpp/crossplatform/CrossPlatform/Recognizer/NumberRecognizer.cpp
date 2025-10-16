@@ -314,15 +314,52 @@ bool CNumberRecognizer::CheckSum(const shared_ptr<INeuralNetworkResultList>& res
         number.push_back(result->GetMaxIndex());
     }
     
-    if (number[0] != 5 && number[0] != 4 && number[0] != 2) {
-        return false;
-    }
+    // Support for major card types:
+    // Visa: starts with 4
+    // MasterCard: starts with 5 (second digit 1-5) or 2 (second digit 2-7)
+    // American Express: starts with 3 (second digit 4 or 7)
+    // Discover: starts with 6
+    // Diners Club: starts with 3 (second digit 0, 6, or 8)
+    // JCB: starts with 3 (second digit 5)
+    // Specific BIN codes: 9762, 5058, 6233
     
-    if(number[0] == 2 && number[1] != 2) {
-        return false;
-    }
-    
-    if (number[0] == 5 && (number[1] < 1 || number[1] > 5)) {
+    // Check for specific 4-digit BIN codes first
+    if (number.size() >= 4) {
+        if ((number[0] == 9 && number[1] == 7 && number[2] == 6 && number[3] == 2) ||
+            (number[0] == 5 && number[1] == 0 && number[2] == 5 && number[3] == 8) ||
+            (number[0] == 6 && number[1] == 2 && number[2] == 3 && number[3] == 3)) {
+            // Specific BIN codes supported - no additional checks needed
+        } else if (number[0] == 4) {
+            // Visa - no additional checks needed
+        } else if (number[0] == 5) {
+            // MasterCard - second digit should be 1-5
+            if (number[1] < 1 || number[1] > 5) {
+                return false;
+            }
+        } else if (number[0] == 2) {
+            // MasterCard 2-series - second digit should be 2-7
+            if (number[1] < 2 || number[1] > 7) {
+                return false;
+            }
+        } else if (number[0] == 3) {
+            // American Express, Diners Club, JCB
+            if (number[1] == 4 || number[1] == 7) {
+                // American Express
+            } else if (number[1] == 0 || number[1] == 6 || number[1] == 8) {
+                // Diners Club
+            } else if (number[1] == 5) {
+                // JCB
+            } else {
+                return false;
+            }
+        } else if (number[0] == 6) {
+            // Discover - no additional checks needed
+        } else {
+            // Unsupported card type
+            return false;
+        }
+    } else {
+        // Card number too short
         return false;
     }
     
