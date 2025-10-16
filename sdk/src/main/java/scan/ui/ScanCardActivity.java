@@ -1,16 +1,19 @@
 package scan.ui;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.WindowManager;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.SystemBarStyle;
 import androidx.annotation.Nullable;
 import androidx.annotation.RestrictTo;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import scan.camera.RecognitionAvailabilityChecker;
 import scan.camera.RecognitionCoreUtils;
@@ -27,7 +30,7 @@ public class ScanCardActivity extends AppCompatActivity implements ScanCardFragm
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
+        EdgeToEdge.enable(this, SystemBarStyle.dark(Color.TRANSPARENT), SystemBarStyle.dark(Color.TRANSPARENT));
         if (!BuildConfig.DEBUG) {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         }
@@ -67,7 +70,16 @@ public class ScanCardActivity extends AppCompatActivity implements ScanCardFragm
                 .setCustomAnimations(0, 0)
                 .commitNow();
 
-        ViewCompat.requestApplyInsets(findViewById(android.R.id.content));
+        // Apply insets to the root view for edge-to-edge support
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content), (v, insets) -> {
+            v.setPadding(
+                insets.getInsets(WindowInsetsCompat.Type.systemBars()).left,
+                insets.getInsets(WindowInsetsCompat.Type.systemBars()).top,
+                insets.getInsets(WindowInsetsCompat.Type.systemBars()).right,
+                insets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom
+            );
+            return insets;
+        });
     }
 
     @Override

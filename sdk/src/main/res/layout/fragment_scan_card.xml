@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:keepScreenOn="true"
+    android:fitsSystemWindows="false"
     tools:context="scan.ui.ScanCardActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -69,9 +70,7 @@
         android:textColor="@color/accent_color"
         android:textSize="16sp"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/main_content"
-        app:layout_constraintStart_toEndOf="@+id/main_content"
+        android:fitsSystemWindows="false"
         tools:ignore="TouchTargetSizeCheck"
         tools:visibility="visible" />
 

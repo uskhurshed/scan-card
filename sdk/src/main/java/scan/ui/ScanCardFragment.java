@@ -290,11 +290,22 @@ public class ScanCardFragment extends Fragment {
         });
 
         ViewCompat.setOnApplyWindowInsetsListener(mToolbar, (v, insets) -> {
-            Insets ins = insets.getInsets(WindowInsetsCompat.Type.statusBars());
-            mToolbar.setPadding(0, ins.top, 0, 0);
+            Insets statusBarInsets = insets.getInsets(WindowInsetsCompat.Type.statusBars());
+            Insets navigationBarInsets = insets.getInsets(WindowInsetsCompat.Type.navigationBars());
+            
+            // Apply status bar insets to toolbar
+            mToolbar.setPadding(0, statusBarInsets.top, 0, 0);
+            
+            // Apply navigation bar insets to manual button
             ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) bManual.getLayoutParams();
-            params.setMargins(params.leftMargin, params.topMargin, params.rightMargin, params.bottomMargin  + ins.top);
+            params.setMargins(
+                params.leftMargin, 
+                params.topMargin, 
+                params.rightMargin, 
+                params.bottomMargin + navigationBarInsets.bottom
+            );
             bManual.setLayoutParams(params);
+            
             return insets;
         });
     }
